@@ -28,3 +28,12 @@ following = users[2..16]
 followers = users[3..8]
 following.each { |followed| user.follow(followed) }
 followers.each { |follower| follower.follow(user) }
+
+users = User.order(:created_at).take(4)
+entries = Entry.order(:created_at).take(8)
+  entries.each do |entry|
+    users.each do |user|
+      content = Faker::Lorem.sentence(1)
+      entry.comments.create!(content: content, user_id: user.id)
+    end
+  end

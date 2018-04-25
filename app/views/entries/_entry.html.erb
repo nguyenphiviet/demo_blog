@@ -11,4 +11,22 @@
         data: { confirm: "You sure?" } %>
     <% end %>
   </span>
+
+  <section class="entry_form">
+  <%= render "shared/comment_form", comment: @comment, entry: entry %>
+  </section>
+
+  <div class="entry_comment">
+    <% if !entry.comments.empty? %>
+      <% entry.comments.each do |f| %>
+      <div class="media">
+        <div class="media-body">
+          <span class="media-heading"><b><%= f.user.name%></b><span>
+          <i><%= time_ago_in_words f.created_at %> ago.</i>
+          <p><%= f.content %></p>
+        </div>
+      </div>
+      <% end %>
+    <% end %>
+  </div>
 </li>
