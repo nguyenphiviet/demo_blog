@@ -4,12 +4,12 @@ class UsersController < ApplicationController
   before_action :admin_user, only: :destroy
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 30)
+    @users = User.paginate(page: params[:page], per_page: 12)
   end
 
   def show
     @user = User.find params[:id]
-    @entries = @user.entries.paginate(page: params[:page])
+    @entries = @user.entries.paginate(page: params[:page], per_page: 8)
   end
 
   def new
@@ -42,6 +42,20 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
     redirect_to users_url
+  end
+
+  def following
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
   end
 
   private
